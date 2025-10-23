@@ -113,6 +113,14 @@
     return thead;
   }
 
+  /**
+   * Creates the complete HTML for the body of the table.
+   * @param {[]} data - Array of objects of parsed CSV data. Result of parseCSV(getData())
+   * @param {[]} renderKeys - Keys which are rendered in the table and used as headers. Result of getRenderKeys
+   * @param {[]} regions - Regions used for the selection of content. Result of getRegions.
+   * @param {[]} seasons - Seasons used for the selection of content. Result of getSeasons.
+   * @return {HTMLTableSectionElement} - The complete tbody element.
+   */
   function createBody(data, renderKeys, regions, seasons) {
     const key = `${regions[0]} - ${seasons[0]}`;
     data.sort(function (a, b) {
@@ -123,7 +131,7 @@
     });
     const tbody = createElement("tbody");
     let tr, td, i, j, l, ll;
-    for (i = 0, l = 15; i < l; i++) {
+    for (i = 0, l = data.length; i < l; i++) {
       tr = createElement("tr");
       for (j = 0, ll = renderKeys.length; j < ll; j++) {
         if (j === 0) {
@@ -162,7 +170,7 @@
    * @todo Determine these dynamically if needed.
    */
   function getRenderKeys() {
-    return ["Dataset", "Timescale", "Datasets In Study", "Additional Datasets"];
+    return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
   }
 
   /**
