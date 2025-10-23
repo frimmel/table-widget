@@ -1,0 +1,33 @@
+/** Relevant exports from the USWDS **/
+.usa-table--sticky-header {
+  border: 1px solid #1b1b1b;
+  border-collapse: separate;
+}
+.usa-table, .usa-table tbody th {
+  text-align: left;
+}
+.usa-table {
+  font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size: 1.06rem;
+  line-height: 1.5;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: #1b1b1b;
+  margin: 1.25rem 0;
+  text-align: left;
+}
+.usa-table thead td, .usa-table thead th {
+  background-color: #dfe1e2;
+  color: #1b1b1b;
+}
+.usa-table thead th {
+  background-clip: padding-box;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.usa-prose>table td, .usa-prose>table th, .usa-table td, .usa-table th {
+  background-color: #fff;
+  border: 1px solid #1b1b1b;
+  font-weight: 400;
+  padding: .5rem 1rem;
+}
