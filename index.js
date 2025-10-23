@@ -49,9 +49,78 @@
     return result;
   }
 
+  /**
+   * Creates the complete HTML for the end table widget, with all children.
+   * @param {array} data - Array of objects of parsed CSV data. Result of parseCSV(getData())
+   * @return {HTMLTableElement} - The complete HTML table.
+   */
   function generateTable(data) {
-    const renderKeys = getRenderKeys();
-    return document.createElement("table");
+    const [renderKeys, regions, seasons] = [getRenderKeys(), getRegions(), getSeasons()];
+    const table = createElement("table", "usa-table usa-table--stacked usa-table--sticky-header");
+    table.append(createHeader(renderKeys), createBody(data, renderKeys, regions, seasons));
+    return table;
+  }
+
+  /**
+   * Creates the complete thead of the table, with all children.
+   * @param {array} renderKeys - Keys which are rendered in the table and used as headers. Result of getRenderKeys
+   * @return {HTMLTableSectionElement} - The thead element.
+   */
+  function createHeader(renderKeys) {
+    const thead = createElement("thead");
+    const tr = createElement("tr");
+    let th, i, l;
+    for (i = 0, l = renderKeys.length; i < l; i++) {
+      th = createElement("th");
+      th.textContent = renderKeys[i];
+      th.setAttribute("scope", "col");
+      tr.append(th);
+    }
+    thead.append(tr);
+    return thead;
+  }
+
+  function createBody(data, renderKeys, regions, seasons) {
+    const key = `${regions[0]} - ${seasons[0]}`;
+    data.sort(function (a, b) {
+      if (a[key] === undefined || b[key] === undefined) {
+        return 0;
+      }
+      return b[key] - a[key];
+    });
+    const tbody = createElement("tbody");
+    let tr, td, i, j, l, ll;
+    for (i = 0, l = 15; i < l; i++) {
+      tr = createElement("tr");
+      for (j = 0, ll = renderKeys.length; j < ll; j++) {
+        if (j === 0) {
+          td = createElement("th");
+          td.setAttribute("scope", "row");
+        } else {
+          td = createElement("td");
+        }
+        td.textContent = data[i][renderKeys[j]];
+        td.setAttribute("data-label", renderKeys[j]);
+        tr.append(td);
+      }
+      tbody.append(tr);
+    }
+    return tbody;
+  }
+
+  /**
+   * Utility to create an element with classes
+   * @param {string} tag - Tag name
+   * @param {string} classes - Optional space separated list of classes.
+   * @return {Element} - A DOM Element.
+   * @todo add error handling.
+   */
+  function createElement(tag, classes = "") {
+    const element = document.createElement(tag);
+    if (classes) {
+      element.className = classes;
+    }
+    return element;
   }
 
   /**
@@ -60,7 +129,7 @@
    * @todo Determine these dynamically if needed.
    */
   function getRenderKeys() {
-    return ["Indicator", "Timescale", "Datasets In Study", "Additional Datasets"];
+    return ["Dataset", "Timescale", "Datasets In Study", "Additional Datasets"];
   }
 
   /**
