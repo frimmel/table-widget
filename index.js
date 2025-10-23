@@ -35,11 +35,11 @@
       return null;
     }
 
-    const headers = lines.shift().split(separator);
+    const headers = parseCSVLine(lines.shift(), separator);
     const result = [];
     let i, j, l, ll, line, parsedData;
     for (i = 0, l = lines.length; i < l; i++) {
-      line = lines[i].split(separator).map(item => item.trim());
+      line = parseCSVLine(lines[i], separator);
       parsedData = {};
       for (j = 0, ll = line.length; j < ll; j++) {
         parsedData[headers[j]] = line[j];
@@ -47,6 +47,39 @@
       result.push(parsedData);
     }
     return result;
+  }
+
+  /**
+   * Parses a single line of a CSV file, handling inner commas.
+   * @param {string} line - A single line of a CSV file.
+   * @param {string} separator - Separator of CSV file if not the default of ","
+   * @return {[]} - Array of strings parsed from the CSV line.
+   */
+  function parseCSVLine(line, separator = ",") {
+    const entries = [];
+    let entry = '';
+    let inQuote = false;
+    let char, i, l;
+
+    for (i = 0, l = line.length; i < l; i++) {
+      char = line[i];
+
+      if (char === '"') {
+        inQuote = !inQuote;
+        // Handle escaped quotes (e.g., "" inside a quoted field)
+        if (inQuote && i + 1 < line.length && line[i + 1] === '"') {
+          entry += '"';
+          i++; // Skip the second quote
+        }
+      } else if (char === separator && !inQuote) {
+        entries.push(entry.trim());
+        entry = '';
+      } else {
+        entry += char;
+      }
+    }
+    entries.push(entry.trim()); // Add the last field
+    return entries;
   }
 
   /**
