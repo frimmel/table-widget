@@ -132,7 +132,8 @@
     const tbody = createElement("tbody");
     let tr, td, i, j, l, ll;
     for (i = 0, l = data.length; i < l; i++) {
-      tr = createElement("tr");
+      tr = createElement("tr", i > 14 ? "display-none" : "");
+      addFIData(tr, data[i], regions, seasons);
       for (j = 0, ll = renderKeys.length; j < ll; j++) {
         if (j === 0) {
           td = createElement("th");
@@ -147,6 +148,24 @@
       tbody.append(tr);
     }
     return tbody;
+  }
+
+  /**
+   * Binds the FI data values to data attributes to allow for later sorting / filtering.
+   * @param {HTMLTableRowElement} tr - A tr element
+   * @param {{}} dataRow - The row of data for the tr element.
+   * @param {[]} regions - Regions used for the selection of content. Result of getRegions.
+   * @param {[]} seasons - Seasons used for the selection of content. Result of getSeasons.
+   */
+  function addFIData(tr, dataRow, regions, seasons) {
+    let key, dataAttrKey, i, j, l, ll;
+    for (i = 0, l = regions.length; i < l; i++) {
+      for (j = 0, ll = seasons.length; j < ll; j++) {
+        key = `${regions[i]} - ${seasons[j]}`;
+        dataAttrKey = `${regions[i]}-${seasons[j]}`.toLowerCase().replace(" ", "");
+        tr.setAttribute(`data-${dataAttrKey}`, dataRow[key]);
+      }
+    }
   }
 
   /**

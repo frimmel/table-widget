@@ -1,4 +1,7 @@
 /** Relevant exports from the USWDS **/
+.display-none {
+  display: none;
+}
 .usa-table--sticky-header {
   border: 1px solid #1b1b1b;
   border-collapse: separate;
