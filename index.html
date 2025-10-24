@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>FI Table Generator</title>
     <link rel="stylesheet" media="all" href="uswds.css"></link>
     <link rel="stylesheet" media="all" href="custom-styles.css"></link>
     <script src="initial-data.js"></script>
@@ -12,7 +13,7 @@
           <div style="display: inline-block; width: 50%; padding-right: 1rem;">
             <label for="ui--dropdowns--region">Select Region</label>
             <select class="usa-select" id="ui--dropdowns--region" name="ui--dropdowns--region">
-              <option value="high-plains" selected>High Plains</option>
+              <option value="highplains" selected>High Plains</option>
               <option value="northeast">Northeast</option>
               <option value="south">South</option>
               <option value="southeast">Southeast</option>
@@ -29,6 +30,14 @@
             </select>
           </div>
         </div>
+      </div>
+      <div id="legend">
+        <div class="legend-item"><span class="legend-icon" style="background: #A6CFE3;"></span><span>Precipitation-Based Indicators</span></span></div>
+        <div class="legend-item"><span class="legend-icon" style="background: #FEC06D;"></span><span>Evapotranspiration-Based Indicators</span></div>
+        <div class="legend-item"><span class="legend-icon" style="background: #b3d78a;"></span><span>Soil Moisture</span></div>
+        <div class="legend-item"><span class="legend-icon" style="background: #1479B5;"></span><span>Streamflow</span></div>
+        <div class="legend-item"><span class="legend-icon" style="background: #CAB3D7;"></span><span>Runoff</span></div>
+        <div class="legend-item"><span class="legend-icon" style="background: #fff;"></span><span>Palmer Indices</span></div>
       </div>
       <div id="table"></div>
     </div>
