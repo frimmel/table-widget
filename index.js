@@ -5,19 +5,85 @@
   "use strict";
 
   (function main() {
-    const csv = getData()
-    const data = parseCSV(csv);
-    if (data === null) {
-      console.error("Unable to parse data", csv);
-      return;
-    }
-    const table = generateTable(data);
-    document.querySelector("#table").append(table)
+    bindListeners()
   }());
 
-  // Initial stub. Grabs a hardcoded export of the data but it will eventually get data from a user uploaded CSV.
-  function getData() {
-    return window.data;
+  /**
+   * Binds needed event listeners.
+   */
+  function bindListeners() {
+    document.querySelector("#file").addEventListener("change", handleFileUpload);
+    dropHandlers();
+  }
+
+  /**
+   * Handles when a user clicks the page to upload a file.
+   * @param {Event} e - The change event
+   */
+  function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      processData(file);
+    }
+  }
+
+  /**
+   * Handles drag and drop events
+   */
+  function dropHandlers() {
+    const dropZone = document.querySelector("#file-upload");
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add("file-accent")
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove("file-accent")
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const file = files[0];
+        if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+          processData(file);
+        }
+      }
+    });
+  }
+
+  /**
+   * Reads the contents of the file and triggers the widget being built.
+   * @param {*} file - The uploaded file
+   */
+  function processData(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      buildWidget(e.target.result);
+    };
+    reader.readAsText(file);
+  }
+
+  /**
+   * Builds and displays the table widget
+   * @param {string} csvString - Contents of the uploaded file.
+   */
+  function buildWidget(csvString) {
+    const data = parseCSV(csvString);
+    if (data === null) {
+      console.error("Unable to parse data", csvString);
+      return;
+    }
+    document.querySelector("#fileupload").classList.add("display-none")
+    document.querySelector("#tablewidget").classList.remove("display-none");
+    const table = generateTable(data);
+    document.querySelector("#table").append(table)
   }
 
   /**
