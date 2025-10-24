@@ -1,0 +1,38 @@
+/** Custom styles. Some will be ported over */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: #1b1b1a;
+}
+
+.usa-table thead th {
+  background-color: #162e51;
+  color: #fff;
+}
+
+.usa-table tbody tr[data-indicator="Precipitation-Based Indicators"] * {
+  background: #A6CFE3;
+}
+
+.usa-table tbody tr[data-indicator="Evapotranspiration-Based Indicators"] * {
+  background: #FEC06D;
+}
+
+.usa-table tbody tr[data-indicator="Soil Moisture"] * {
+  background: #b3d78a;
+}
+
+.usa-table tbody tr[data-indicator="Streamflow"] * {
+  background: #1479B5;
+  color: #fff;
+}
+
+.usa-table tbody tr[data-indicator="Runoff"] * {
+  background: #CAB3D7;
+}
+
+.usa-table tbody tr[data-indicator="Palmer Indices"] * {
+
+}

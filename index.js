@@ -137,6 +137,7 @@
     for (i = 0, l = data.length; i < l; i++) {
       tr = createElement("tr", i > 14 ? "display-none" : "");
       addFIData(tr, data[i], regions, seasons);
+      tr.setAttribute("data-indicator", data[i]["Indicator Type"]);
       for (j = 0, ll = renderKeys.length; j < ll; j++) {
         if (j === 0) {
           td = createElement("th");

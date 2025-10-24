@@ -2,13 +2,14 @@
 <html>
   <head>
     <link rel="stylesheet" media="all" href="uswds.css"></link>
+    <link rel="stylesheet" media="all" href="custom-styles.css"></link>
     <script src="initial-data.js"></script>
   </head>
   <body>
     <div class="grid-container">
       <div id="ui" style="padding-bottom: 1rem; border-bottom: 1px solid #ccc;">
         <div id="ui--dropdowns">
-          <div style="display: inline-block; width: 50%;">
+          <div style="display: inline-block; width: 50%; padding-right: 1rem;">
             <label for="ui--dropdowns--region">Select Region</label>
             <select class="usa-select" id="ui--dropdowns--region" name="ui--dropdowns--region">
               <option value="high-plains" selected>High Plains</option>
@@ -17,7 +18,7 @@
               <option value="southeast">Southeast</option>
               <option value="west">West</option>
             </select>
-          </div><div style="display: inline-block; width: 50%;">
+          </div><div style="display: inline-block; width: 50%; padding-left: 1rem;">
             <label for="ui--dropdowns--season">Select Season</label>
             <select class="usa-select" id="ui--dropdowns--season" name="ui--dropdowns--season">
               <option value="all" selected>All Seasons</option>
