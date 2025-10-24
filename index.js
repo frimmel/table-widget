@@ -1,3 +1,6 @@
+/**
+ * @file Sets up utilities for parsing the CSV and building the table from it.
+ */
 (function() {
   "use strict";
 
