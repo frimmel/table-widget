@@ -9,7 +9,7 @@
       return;
     }
     const table = generateTable(data);
-    document.querySelector("body").append(table)
+    document.querySelector("#table").append(table)
   }());
 
   // Initial stub. Grabs a hardcoded export of the data but it will eventually get data from a user uploaded CSV.

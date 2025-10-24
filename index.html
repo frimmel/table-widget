@@ -5,6 +5,32 @@
     <script src="initial-data.js"></script>
   </head>
   <body>
+    <div class="grid-container">
+      <div id="ui" style="padding-bottom: 1rem; border-bottom: 1px solid #ccc;">
+        <div id="ui--dropdowns">
+          <div style="display: inline-block; width: 50%;">
+            <label for="ui--dropdowns--region">Select Region</label>
+            <select class="usa-select" id="ui--dropdowns--region" name="ui--dropdowns--region">
+              <option value="high-plains" selected>High Plains</option>
+              <option value="northeast">Northeast</option>
+              <option value="south">South</option>
+              <option value="southeast">Southeast</option>
+              <option value="west">West</option>
+            </select>
+          </div><div style="display: inline-block; width: 50%;">
+            <label for="ui--dropdowns--season">Select Season</label>
+            <select class="usa-select" id="ui--dropdowns--season" name="ui--dropdowns--season">
+              <option value="all" selected>All Seasons</option>
+              <option value="winter">Winter</option>
+              <option value="spring">Spring</option>
+              <option value="summer">Summer</option>
+              <option value="fall">Fall</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="table"></div>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>

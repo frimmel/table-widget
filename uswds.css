@@ -34,3 +34,45 @@
   font-weight: 400;
   padding: .5rem 1rem;
 }
+@media (min-width: 64em) {
+  .grid-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+  }
+}
+.grid-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 64rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.usa-select {
+  background-image: url(icons/unfold_more.svg), linear-gradient(transparent, transparent);
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-position: right .5rem center;
+  background-size: 1.25rem;
+  padding-right: 2rem;
+}
+.usa-combo-box__input, .usa-input, .usa-input-group, .usa-select {
+  border-width: 1px;
+  border-color: #5c5c5c;
+  border-style: solid;
+  border-radius: 0;
+  color: #1b1b1b;
+  display: block;
+  height: 2.5rem;
+  margin-top: .5rem;
+  max-width: 30rem;
+  padding: .5rem;
+  width: 100%;
+}
+.usa-checkbox__label, .usa-combo-box__input, .usa-combo-box__list, .usa-fieldset, .usa-hint, .usa-input, .usa-input-group, .usa-radio__label, .usa-range, .usa-range__value, .usa-select, .usa-textarea {
+  font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size: 1.06rem;
+  line-height: 1.3;
+}
