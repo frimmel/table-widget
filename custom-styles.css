@@ -95,3 +95,32 @@ body {
   border-color: #0071bc;
   border-width: 6px;
 }
+
+#tabs {
+  border-bottom: 2px solid #0071bc;
+  padding-bottom: 2px;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.tab {
+  cursor: pointer;
+  color: #0071bc;
+  padding-bottom: 3px;
+  display: inline-block;
+}
+
+.tab.active {
+  font-weight: bold;
+  margin-bottom: -3px;
+  border-bottom: 4px solid #0071bc;
+}
+
+.tab:not(.active):hover {
+  border-bottom: 2px solid #0071bc;
+  margin-bottom: -2px;
+}
+
+.tab:first-child {
+  margin-right: 17rem;
+}

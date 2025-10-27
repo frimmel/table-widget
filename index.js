@@ -13,6 +13,7 @@
    */
   function bindListeners() {
     document.querySelector("#file").addEventListener("change", handleFileUpload);
+    document.querySelector("#tabs").addEventListener("click", handleTabClick);
     dropHandlers();
   }
 
@@ -85,7 +86,7 @@
     const table = generateTable(reprocessDefaultData(data), getRenderKeys());
     document.querySelector("#table-default").append(table)
     const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
-    document.querySelector("#table-default").append(mergedTable)
+    document.querySelector("#table-merged").append(mergedTable)
   }
 
   /**
@@ -386,5 +387,26 @@
    */
   function getSeasons() {
     return ["All", "Spring", "Summer", "Fall", "Winter"];
+  }
+
+  function handleTabClick(e) {
+    if (e.target.classList.contains("tab") === false || e.target.classList.contains("active")) {
+      return;
+    }
+    const tables = document.querySelectorAll(".table");
+    const tabs = document.querySelectorAll(".tab.active");
+    const targetId = e.target.getAttribute("for");
+    let i, l;
+    for (i = 0, l = tables.length; i < l; i++) {
+      if (tables[i].id === targetId) {
+        tables[i].classList.remove("display-none");
+      } else {
+        tables[i].classList.add("display-none");
+      }
+    }
+    for (i = 0, l = tabs.length; i < l; i++) {
+      tabs[i].classList.remove("active");
+    }
+    e.target.classList.add("active");
   }
 })()
