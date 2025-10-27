@@ -14,6 +14,7 @@
   function bindListeners() {
     document.querySelector("#file").addEventListener("change", handleFileUpload);
     document.querySelector("#tabs").addEventListener("click", handleTabClick);
+    document.addEventListener("input", handleColorInput);
     dropHandlers();
   }
 
@@ -84,9 +85,10 @@
     document.querySelector("#fileupload").classList.add("display-none")
     document.querySelector("#tablewidget").classList.remove("display-none");
     const table = generateTable(reprocessDefaultData(data), getRenderKeys());
-    document.querySelector("#table-default").append(table)
+    document.querySelector("#table-default").append(table);
     const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
-    document.querySelector("#table-merged").append(mergedTable)
+    document.querySelector("#table-merged").append(mergedTable);
+    updateColors();
   }
 
   /**
@@ -215,7 +217,7 @@
         return 0;
       }
       return parseInt(a.Timescale) - parseInt(b.Timescale);
-    })
+    });
     const newData = [clonedData.shift()];
     let i, j, l, ll, addDataFlag;
     for (i = 0, l = clonedData.length; i < l; i++) {
@@ -413,4 +415,40 @@
     }
     e.target.classList.add("active");
   }
-})()
+
+  /**
+   * Handles an input element in the legend being updated to update all colors.
+   * @param {*} e - Input event
+   */
+  function handleColorInput(e) {
+    if (!e.target.closest(".legend-item")) {
+      return;
+    }
+    updateColors();
+  }
+
+  /**
+   * Updates the styles of all legend cells to the new colors.
+   */
+  function updateColors() {
+    const elems = document.querySelectorAll(".legend-item input");
+    const rows = document.querySelectorAll("tr");
+    let i, j, k, l, ll, lll, color, cells;
+    for (i = 0, l = elems.length; i < l; i++) {
+      color = elems[i].value;
+      if (color.length !== 4 && color.length !== 7 && color.charAt(0) !== "#") {
+        continue;
+      }
+      elems[i].closest(".legend-item").querySelector(".legend-icon").style.backgroundColor = color;
+      for (j = 0, ll = rows.length; j < ll; j++) {
+        if (rows[j].getAttribute("data-indicator") !== elems[i].getAttribute("data-for")) {
+          continue;
+        }
+        cells = rows[j].querySelectorAll("th, td");
+        for (k = 0, lll = cells.length; k < lll; k++) {
+          cells[k].style.backgroundColor = color;
+        }
+      }
+    }
+  }
+})();

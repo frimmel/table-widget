@@ -54,13 +54,30 @@ body {
   width: 33.33%;
   height: 30px;
   align-items: center;
+  position: relative;
+}
+
+.legend-item label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .legend-icon {
+  display: inline-flex;
   height: 20px;
   width: 20px;
   border: 1px solid;
   margin-right: .5rem;
+}
+
+.legend-item input {
+  max-width: 65px;
+  position: absolute;
+  right: 10px;
+  border: 0;
+  border-bottom: 1px solid #000;
+  padding: 2px;
 }
 
 #file-upload {
