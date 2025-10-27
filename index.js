@@ -82,8 +82,10 @@
     }
     document.querySelector("#fileupload").classList.add("display-none")
     document.querySelector("#tablewidget").classList.remove("display-none");
-    const table = generateTable(data);
-    document.querySelector("#table").append(table)
+    const table = generateTable(reprocessDefaultData(data), getRenderKeys());
+    document.querySelector("#table-default").append(table)
+    const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
+    document.querySelector("#table-default").append(mergedTable)
   }
 
   /**
@@ -152,12 +154,108 @@
   }
 
   /**
+   * Adds the timescale if present to the Indicator title
+   * @param {*} data 
+   * @returns 
+   */
+  function reprocessDefaultData(data) {
+    const newData = [];
+    let i, l, item;
+    for (i = 0, l = data.length; i < l; i++) {
+      item = { ...data[i] };
+      newData.push(item);
+      if (item.Timescale === "N/A" || item.Timescale === "TBD") {
+        continue;
+      }
+      item.Indicator = `${item.Timescale} ${item.Indicator}`;
+    }
+    return newData;
+  }
+
+  /**
+   * If we end up utilizing merged data rewrite this. At present for simplicities sake of the update logic it creates a
+   * giant array of data which merges together rows that have the same Dataset Group key, then renders it all.
+   * @param {[]} data 
+   * @returns 
+   */
+  function reprocessMergedData(data) {
+    const newData = [];
+    const [regions, seasons] = [getRegions(), getSeasons()];
+    let i, j, l, ll, key, newSubset;
+    for (i = 0, l = regions.length; i < l; i++) {
+      for (j = 0, ll = seasons.length; j < ll; j++) {
+        key = `${regions[i]} - ${seasons[j]}`;
+        newSubset = mergeItems(data, key);
+        newData.push(...newSubset);
+      }
+    }
+    return newData;
+  }
+
+  /**
+   * 
+   * @param {*} data 
+   * @param {*} key 
+   * @returns 
+   */
+  function mergeItems(data, key) {
+    data.sort(function (a, b) {
+      return parseFloat(b[key]) - parseFloat(a[key]);
+    });
+    const clonedData = JSON.parse(JSON.stringify(data.slice(0, 15)));
+    clonedData.sort(function (a, b) {
+      if (a.Timescale === "N/A" && b.Timescale !== "N/A") {
+        return -1;
+      }
+      if (a.Timescale !== "N/A" && b.Timescale === "N/A") {
+        return 1;
+      }
+      if (a.Timescale === "N/A" && b.Timescale === "N/A") {
+        return 0;
+      }
+      return parseInt(a.Timescale) - parseInt(b.Timescale);
+    })
+    const newData = [clonedData.shift()];
+    let i, j, l, ll, addDataFlag;
+    for (i = 0, l = clonedData.length; i < l; i++) {
+      addDataFlag = true;
+      for (j = 0, ll = newData.length; j < ll; j++) {
+        if (clonedData[i]["Dataset Group"] !== newData[j]["Dataset Group"]) {
+          continue;
+        }
+        addDataFlag = false;
+        newData[j].Timescale += `, ${clonedData[i].Timescale}`;
+        newData[j][key] = Math.max(parseFloat(newData[j][key]), parseFloat(clonedData[i][key]));
+      }
+      if (addDataFlag) {
+        newData.push(clonedData[i]);
+      }
+    }
+    const [regions, seasons] = [getRegions(), getSeasons()];
+    let k, lll, resetKey;
+    for (i = 0, l = regions.length; i < l; i++) {
+      for (j = 0, ll = seasons.length; j < ll; j++) {
+        resetKey = `${regions[i]} - ${seasons[j]}`;
+        for (k = 0, lll = newData.length; k < lll; k++) {
+          if (key !== resetKey) {
+            newData[k][resetKey] = 0;
+          }
+        }
+      }
+    }
+    newData.sort(function (a, b) {
+      return parseFloat(b[key]) - parseFloat(a[key]);
+    });
+    return newData;
+  }
+
+  /**
    * Creates the complete HTML for the end table widget, with all children.
    * @param {array} data - Array of objects of parsed CSV data. Result of parseCSV(getData())
    * @return {HTMLTableElement} - The complete HTML table.
    */
-  function generateTable(data) {
-    const [renderKeys, regions, seasons] = [getRenderKeys(), getRegions(), getSeasons()];
+  function generateTable(data, renderKeys) {
+    const [regions, seasons] = [getRegions(), getSeasons()];
     const table = createElement("table", "usa-table usa-table--stacked usa-table--sticky-header");
     table.append(createHeader(renderKeys), createBody(data, renderKeys, regions, seasons));
     return table;
@@ -201,7 +299,7 @@
     const tbody = createElement("tbody");
     let tr, td, i, j, l, ll;
     for (i = 0, l = data.length; i < l; i++) {
-      tr = createElement("tr", i > 14 ? "display-none" : "");
+      tr = createElement("tr", (i > 14 || parseFloat(data[i][key]) === 0) ? "display-none" : "");
       addFIData(tr, data[i], regions, seasons);
       tr.setAttribute("data-indicator", data[i]["Indicator Type"]);
       for (j = 0, ll = renderKeys.length; j < ll; j++) {
@@ -259,8 +357,18 @@
    * @todo Determine these dynamically if needed.
    */
   function getRenderKeys() {
-    return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+    //return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+    return ["Indicator", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
   }
+
+    /**
+   * Gets the keys of data which is rendered in the merged table.
+   * @return {array} - Keys which are rendered in the table and used as headers.
+   * @todo Determine these dynamically if needed.
+   */
+    function getMergedRenderKeys() {
+      return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+    }
 
   /**
    * Gets the names of the regions.

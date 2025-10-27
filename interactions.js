@@ -26,15 +26,24 @@
     if (!document.querySelector("table")) {
       return;
     }
-    console.log(1)
-    updateTable()
+    updateTables()
+  }
+
+  /**
+   * Updates the tables to the selected region and season
+   */
+  function updateTables() {
+    const tBody = document.querySelectorAll("table tbody");
+    let i, l;
+    for (i = 0, l = tBody.length; i < l; i++) {
+      updateTable(tBody[i])
+    }
   }
 
   /**
    * Updates the table to the selected region and season
    */
-  function updateTable() {
-    const tBody = document.querySelector("table tbody");
+  function updateTable(tBody) {
     const rows = Array.from(tBody.querySelectorAll("tr")).sort(sortRows);
     rows.forEach(updateDisplayClasses)
     rows.forEach((row) => tBody.appendChild(row));
@@ -69,7 +78,10 @@
    * @param {number} index - the index
    */
   function updateDisplayClasses(elem, index) {
-    if (index > 14) {
+    const region = document.querySelector("#ui--dropdowns--region").value;
+    const season = document.querySelector("#ui--dropdowns--season").value;
+    const dataAttr = makeDataAttr(region, season);
+    if (index > 14 || parseFloat(elem[dataAttr]) === 0) {
       elem.classList.add("display-none");
     } else {
       elem.classList.remove("display-none");
