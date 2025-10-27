@@ -389,6 +389,10 @@
     return ["All", "Spring", "Summer", "Fall", "Winter"];
   }
 
+  /**
+   * Toggles the table displayed and the active tab classes.
+   * @param {Event} e - the click event
+   */
   function handleTabClick(e) {
     if (e.target.classList.contains("tab") === false || e.target.classList.contains("active")) {
       return;
