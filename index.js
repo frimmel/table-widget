@@ -6,7 +6,7 @@
 
   (function main() {
     updateColorsFromURLParams();
-    bindListeners()
+    bindListeners();
   }());
 
   /**
@@ -39,13 +39,13 @@
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      dropZone.classList.add("file-accent")
+      dropZone.classList.add("file-accent");
     });
 
     dropZone.addEventListener('dragleave', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      dropZone.classList.remove("file-accent")
+      dropZone.classList.remove("file-accent");
     });
 
     dropZone.addEventListener('drop', (e) => {
