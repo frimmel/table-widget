@@ -5,6 +5,7 @@
   "use strict";
 
   (function main() {
+    updateColorsFromURLParams();
     bindListeners()
   }());
 
@@ -15,6 +16,7 @@
     document.querySelector("#file").addEventListener("change", handleFileUpload);
     document.querySelector("#tabs").addEventListener("click", handleTabClick);
     document.addEventListener("input", handleColorInput);
+    document.querySelector("#legend-reset").addEventListener("click", resetColorsToDefault);
     dropHandlers();
   }
 
@@ -425,6 +427,7 @@
       return;
     }
     updateColors();
+    updateColorURLParams();
   }
 
   /**
@@ -436,7 +439,7 @@
     let i, j, k, l, ll, lll, color, cells;
     for (i = 0, l = elems.length; i < l; i++) {
       color = elems[i].value;
-      if (color.length !== 4 && color.length !== 7 && color.charAt(0) !== "#") {
+      if ((color.length !== 4 && color.length !== 7) || color.charAt(0) !== "#") {
         continue;
       }
       elems[i].closest(".legend-item").querySelector(".legend-icon").style.backgroundColor = color;
@@ -450,5 +453,66 @@
         }
       }
     }
+  }
+
+  /**
+   * Sets query parameter with the colors from the UI.
+   */
+  function updateColorURLParams() {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const inputs = document.querySelectorAll(".legend-item input");
+    let i, l, color;
+    for (i = 0, l = inputs.length; i < l; i++) {
+      color = inputs[i].value;
+      if ((color.length !== 4 && color.length !== 7) || color.charAt(0) !== "#") {
+        continue;
+      }
+      params.set(inputs[i].id, color.replace("#", ""));
+    }
+    url.search = params.toString();
+    history.replaceState({}, "", url.toString());
+  }
+
+  /**
+   * Sets query parameter with the colors from the UI.
+   */
+  function updateColorsFromURLParams() {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const inputs = document.querySelectorAll(".legend-item input");
+    let i, l, color;
+    for (i = 0, l = inputs.length; i < l; i++) {
+      color = params.get(inputs[i].id);
+      if (color === null) {
+        continue;
+      }
+      color = "#" + color;
+      if ((color.length !== 4 && color.length !== 7) || color.charAt(0) !== "#") {
+        continue;
+      }
+      inputs[i].value = color;
+    }
+  }
+
+  /**
+   * Restores colors to their defaults.
+   */
+  function resetColorsToDefault() {
+    const inputs = document.querySelectorAll(".legend-item input");
+    const defaults = {
+      precip: "#A6CFE3",
+      evap: "#FEC06D",
+      soil: "#b3d78a",
+      stream: "#1479B5",
+      runoff: "#CAB3D7",
+      palmer: "#ffffff",
+    }
+    let i, l;
+    for (i = 0, l = inputs.length; i < l; i++) {
+      inputs[i].value = defaults[inputs[i].id];
+    }
+    updateColors();
+    updateColorURLParams();
   }
 })();

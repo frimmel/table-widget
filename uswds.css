@@ -76,3 +76,25 @@
   font-size: 1.06rem;
   line-height: 1.3;
 }
+.usa-button--secondary {
+  font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size: 1.06rem;
+  line-height: .9;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  border-radius: .25rem;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 700;
+  padding: .75rem 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #e52207;
+  margin-top: 5px;
+}
+.usa-button--secondary:focus, .usa-button--secondary:hover {
+  background-color: #b50909;
+}
