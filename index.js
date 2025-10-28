@@ -91,6 +91,7 @@
     const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
     document.querySelector("#table-merged").append(mergedTable);
     updateColors();
+    updateTextColors();
   }
 
   /**
@@ -447,6 +448,7 @@
       return;
     }
     updateColors();
+    updateTextColors();
     updateColorURLParams();
   }
 
@@ -454,7 +456,7 @@
    * Updates the styles of all legend cells to the new colors.
    */
   function updateColors() {
-    const elems = document.querySelectorAll(".legend-item input");
+    const elems = document.querySelectorAll(".legend-item input[type='text']");
     const rows = document.querySelectorAll("tr");
     let i, j, k, l, ll, lll, color, cells;
     for (i = 0, l = elems.length; i < l; i++) {
@@ -476,12 +478,28 @@
   }
 
   /**
+   * Updates the styles of all legend cells to the new colors.
+   */
+  function updateTextColors() {
+    const elems = document.querySelectorAll(".legend-item input[type='checkbox']");
+    let i, j, l, ll, checked, rows;
+    for (i = 0, l = elems.length; i < l; i++) {
+      checked = elems[i].checked;
+      rows = document.querySelectorAll(`tr[data-indicator='${elems[i].getAttribute("data-for")}']`);
+      for (j = 0, ll = rows.length; j < ll; j++) {
+        rows[j].classList.toggle("text-white", checked);
+      }
+    }
+  }
+
+  /**
    * Sets query parameter with the colors from the UI.
    */
   function updateColorURLParams() {
     const url = new URL(window.location.href);
     const params = url.searchParams;
-    const inputs = document.querySelectorAll(".legend-item input");
+    const inputs = document.querySelectorAll(".legend-item input[type='text']");
+    const checkboxes = document.querySelectorAll(".legend-item input[type='checkbox']")
     let i, l, color;
     for (i = 0, l = inputs.length; i < l; i++) {
       color = inputs[i].value;
@@ -489,6 +507,9 @@
         continue;
       }
       params.set(inputs[i].id, color.replace("#", ""));
+    }
+    for (i = 0, l = checkboxes.length; i < l; i++) {
+      params.set(checkboxes[i].id, checkboxes[i].checked.toString());
     }
     url.search = params.toString();
     history.replaceState({}, "", url.toString());
@@ -500,7 +521,8 @@
   function updateColorsFromURLParams() {
     const url = new URL(window.location.href);
     const params = url.searchParams;
-    const inputs = document.querySelectorAll(".legend-item input");
+    const inputs = document.querySelectorAll(".legend-item input[type='text']");
+    const checkboxes = document.querySelectorAll(".legend-item input[type='checkbox']")
     let i, l, color;
     for (i = 0, l = inputs.length; i < l; i++) {
       color = params.get(inputs[i].id);
@@ -513,13 +535,20 @@
       }
       inputs[i].value = color;
     }
+    for (i = 0, l = checkboxes.length; i < l; i++) {
+      color = params.get(checkboxes[i].id);
+      if (color === null || (color !== "true" && color !== "false")) {
+        continue;
+      }
+      checkboxes[i].checked = (color === "true") ? true : false;
+    }
   }
 
   /**
    * Restores colors to their defaults.
    */
   function resetColorsToDefault() {
-    const inputs = document.querySelectorAll(".legend-item input");
+    const inputs = document.querySelectorAll(".legend-item input[type='text']");
     const defaults = {
       precip: "#A6CFE3",
       evap: "#FEC06D",
@@ -528,11 +557,24 @@
       runoff: "#CAB3D7",
       palmer: "#ffffff",
     }
+    const checkboxInputs = document.querySelectorAll(".legend-item input[type='checkbox']");
+    const checkboxDefaults = {
+      precipText: false,
+      evapText: false,
+      soilText: false,
+      streamText: true,
+      runoffText: false,
+      palmerText: false,
+    }
     let i, l;
     for (i = 0, l = inputs.length; i < l; i++) {
       inputs[i].value = defaults[inputs[i].id];
     }
+    for (i = 0, l = checkboxInputs.length; i < l; i++) {
+      checkboxInputs[i].checked = checkboxDefaults[checkboxInputs[i].id];
+    }
     updateColors();
+    updateTextColors();
     updateColorURLParams();
   }
 })();

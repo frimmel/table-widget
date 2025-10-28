@@ -98,3 +98,6 @@
 .usa-button--secondary:focus, .usa-button--secondary:hover {
   background-color: #b50909;
 }
+.text-white, .text-white a {
+  color: #fff;
+}
