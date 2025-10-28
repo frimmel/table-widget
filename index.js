@@ -17,6 +17,7 @@
     document.querySelector("#tabs").addEventListener("click", handleTabClick);
     document.addEventListener("input", handleColorInput);
     document.querySelector("#legend-reset").addEventListener("click", resetColorsToDefault);
+    document.querySelector("#icon-toggle").addEventListener("click", toggleIndicatorType);
     dropHandlers();
   }
 
@@ -383,8 +384,7 @@
    * @todo Determine these dynamically if needed.
    */
   function getRenderKeys() {
-    //return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
-    return ["Indicator", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+    return ["Indicator", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
   }
 
     /**
@@ -393,7 +393,7 @@
    * @todo Determine these dynamically if needed.
    */
     function getMergedRenderKeys() {
-      return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+      return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
     }
 
   /**
@@ -511,6 +511,7 @@
     for (i = 0, l = checkboxes.length; i < l; i++) {
       params.set(checkboxes[i].id, checkboxes[i].checked.toString());
     }
+    params.set("indicatorIcon", document.querySelector("body").classList.contains("indicator-icon").toString());
     url.search = params.toString();
     history.replaceState({}, "", url.toString());
   }
@@ -542,6 +543,26 @@
       }
       checkboxes[i].checked = (color === "true") ? true : false;
     }
+    if (params.get("indicatorIcon") === "true") {
+      toggleIndicatorType();
+    }
+  }
+
+  /**
+   * Toggles the type of indicator shown and the UI elements for it
+   */
+  function toggleIndicatorType() {
+    document.querySelector("body").classList.toggle("indicator-icon");
+    const button = document.querySelector("#icon-toggle");
+    const text = document.querySelector("#icon-toggle-text");
+    if (button.textContent.includes("Icons")) {
+      button.textContent = button.textContent.replace("Icons", "Text");
+      text.textContent = text.textContent.replace("Text", "Icons");
+    } else {
+      button.textContent = button.textContent.replace("Text", "Icons");
+      text.textContent = text.textContent.replace("Icons", "Text");
+    }
+    updateColorURLParams();
   }
 
   /**

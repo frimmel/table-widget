@@ -18,35 +18,11 @@ body {
   color: #fff;
 }
 
-.usa-table tbody tr[data-indicator="Precipitation-Based Indicators"] * {
-  background: #A6CFE3;
-}
-
-.usa-table tbody tr[data-indicator="Evaporation-Based Indicators"] * {
-  background: #FEC06D;
-}
-
-.usa-table tbody tr[data-indicator="Soil Moisture"] * {
-  background: #b3d78a;
-}
-
-.usa-table tbody tr[data-indicator="Streamflow"] * {
-  background: #1479B5;
-  color: #fff;
-}
-
-.usa-table tbody tr[data-indicator="Runoff"] * {
-  background: #CAB3D7;
-}
-
-.usa-table tbody tr[data-indicator="Palmer Indices"] * {
-
-}
-
 #legend {
   display: flex;
   flex-wrap: wrap;
   padding-top: 1rem;
+  position: relative;
 }
 
 .legend-item {
@@ -160,4 +136,39 @@ body {
 
 .tab:first-child {
   margin-right: 17rem;
+}
+
+.indicator-icon thead tr th:last-child, .indicator-icon tbody tr td:last-child {
+  display: none;
+}
+
+.indicator-icon tbody th {
+  padding-left: 50px;
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+  background-position: 8px 50%;
+}
+
+.indicator-icon tbody tr[data-indicator="Precipitation-Based Indicators"] th {
+  background-image: url(icons/precipNASA-150p.png);
+}
+
+.indicator-icon tbody tr[data-indicator="Evaporation-Based Indicators"] th {
+  background-image: url(icons/etNASA-150p.png);
+}
+
+.indicator-icon tbody tr[data-indicator="Soil Moisture"] th {
+  background-image: url(icons/smNASA-150p.png);
+}
+
+.indicator-icon tbody tr[data-indicator="Streamflow"] th {
+  background-image: url(icons/streamflowNASA-150p.png);
+}
+
+.indicator-icon tbody tr[data-indicator="Runoff"] th {
+  background-image: url(icons/runoffNASA-150p.png);
+}
+
+.indicator-icon tbody tr[data-indicator="Palmer Indices"] th {
+  background-image: url(icons/palmerNASA-150p.png);
 }

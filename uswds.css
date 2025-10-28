@@ -76,7 +76,7 @@
   font-size: 1.06rem;
   line-height: 1.3;
 }
-.usa-button--secondary {
+.usa-button {
   font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size: 1.06rem;
   line-height: .9;
@@ -91,9 +91,18 @@
   padding: .75rem 1.25rem;
   text-align: center;
   text-decoration: none;
+  margin-top: 10px;
   color: #fff;
+  background-color: #005ea2;
+}
+.usa-button:focus, .usa-button:hover {
+  background-color: #1a4480;
+}
+.usa-button--secondary {
   background-color: #e52207;
-  margin-top: 5px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 .usa-button--secondary:focus, .usa-button--secondary:hover {
   background-color: #b50909;
