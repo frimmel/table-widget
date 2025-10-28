@@ -118,7 +118,7 @@
       line = parseCSVLine(lines[i], separator);
       parsedData = {};
       for (j = 0, ll = line.length; j < ll; j++) {
-        parsedData[headers[j]] = line[j];
+        parsedData[headers[j]] = parseMarkdownLinks(line[j]);
       }
       result.push(parsedData);
     }
@@ -156,6 +156,26 @@
     }
     entries.push(entry.trim()); // Add the last field
     return entries;
+  }
+
+  /**
+   * Simple replacement of markdown links with HTML links. Doesn't do real validation or cleaning input. Doesn't handle
+   * square brackets in the text of a link.
+   * @param {string} entry - Single value in the CSV file
+   * @return {string} - entry with all markdown links converted to their HTML equivalents.
+   */
+  function parseMarkdownLinks(entry) {
+    let matches = entry.match(/\[[^\]]*\]\([^\(]*\)/g);
+    if (!matches) {
+      return entry;
+    }
+    let i, l, url, text;
+    for (i = 0, l = matches.length; i < l; i++) {
+      url = matches[i].match(/\([^\(]*\)/)[0].replace(/\(|\)/g, "");
+      text = matches[i].match(/\[[^\]]*\]/)[0].replace(/\[|\]/g, "");
+      entry = entry.replace(matches[i], `<a href="${url}">${text}</a>`)
+    }
+    return entry;
   }
 
   /**
@@ -314,7 +334,7 @@
         } else {
           td = createElement("td");
         }
-        td.textContent = data[i][renderKeys[j]];
+        td.innerHTML = data[i][renderKeys[j]];
         td.setAttribute("data-label", renderKeys[j]);
         tr.append(td);
       }
