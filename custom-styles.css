@@ -22,7 +22,7 @@ body {
   background: #A6CFE3;
 }
 
-.usa-table tbody tr[data-indicator="Evapotranspiration-Based Indicators"] * {
+.usa-table tbody tr[data-indicator="Evaporation-Based Indicators"] * {
   background: #FEC06D;
 }
 
