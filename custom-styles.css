@@ -172,3 +172,7 @@ body {
 .indicator-icon tbody tr[data-indicator="Palmer Indices"] th {
   background-image: url(icons/palmerNASA-150p.png);
 }
+
+.indicator-icon tbody tr[data-indicator="Groundwater"] th {
+  background-image: url(icons/groundwaterNASA-150.png);
+}

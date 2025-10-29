@@ -402,7 +402,7 @@
    * @todo Determine these dynamically if needed.
    */
   function getRegions() {
-    return ["High Plains", "Northeast", "South", "Southeast", "West"];
+    return ["High Plains", "Midwest", "Northeast", "South", "Southeast", "West"];
   }
 
   /**
@@ -577,6 +577,7 @@
       stream: "#1479B5",
       runoff: "#CAB3D7",
       palmer: "#ffffff",
+      groundwater: "#ffffff",
     }
     const checkboxInputs = document.querySelectorAll(".legend-item input[type='checkbox']");
     const checkboxDefaults = {
@@ -586,6 +587,7 @@
       streamText: true,
       runoffText: false,
       palmerText: false,
+      groundwaterText: false,
     }
     let i, l;
     for (i = 0, l = inputs.length; i < l; i++) {
