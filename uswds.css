@@ -107,6 +107,9 @@
 .usa-button--secondary:focus, .usa-button--secondary:hover {
   background-color: #b50909;
 }
-.text-white, .text-white a {
+a, a:visited {
+  color: #0071bc;
+}
+.text-white, .text-white a, .text-white a:visited {
   color: #fff;
 }

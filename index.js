@@ -384,7 +384,7 @@
    * @todo Determine these dynamically if needed.
    */
   function getRenderKeys() {
-    return ["Indicator", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
+    return ["Indicator", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
   }
 
     /**
@@ -393,7 +393,7 @@
    * @todo Determine these dynamically if needed.
    */
     function getMergedRenderKeys() {
-      return ["Indicator", "Timescale", "What is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
+      return ["Indicator", "Timescale", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
     }
 
   /**
