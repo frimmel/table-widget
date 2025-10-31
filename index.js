@@ -571,11 +571,11 @@
   function resetColorsToDefault() {
     const inputs = document.querySelectorAll(".legend-item input[type='text']");
     const defaults = {
-      precip: "#A6CFE3",
-      evap: "#FEC06D",
-      soil: "#b3d78a",
-      stream: "#1479B5",
-      runoff: "#CAB3D7",
+      precip: "#ffffff",
+      evap: "#ffffff",
+      soil: "#ffffff",
+      stream: "#ffffff",
+      runoff: "#ffffff",
       palmer: "#ffffff",
       groundwater: "#ffffff",
     }
@@ -584,7 +584,7 @@
       precipText: false,
       evapText: false,
       soilText: false,
-      streamText: true,
+      streamText: false,
       runoffText: false,
       palmerText: false,
       groundwaterText: false,
