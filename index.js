@@ -191,10 +191,10 @@
     for (i = 0, l = data.length; i < l; i++) {
       item = { ...data[i] };
       newData.push(item);
-      if (item.Timescale === "N/A" || item.Timescale === "TBD") {
+      if (item["Most Relevant Timescales"] === "N/A" || item["Most Relevant Timescales"] === "TBD") {
         continue;
       }
-      item.Indicator = `${item.Timescale} ${item.Indicator}`;
+      item.Indicator = `${item["Most Relevant Timescales"]} ${item.Indicator}`;
     }
     return newData;
   }
@@ -231,16 +231,16 @@
     });
     const clonedData = JSON.parse(JSON.stringify(data.slice(0, 15)));
     clonedData.sort(function (a, b) {
-      if (a.Timescale === "N/A" && b.Timescale !== "N/A") {
+      if (a["Most Relevant Timescales"] === "N/A" && b["Most Relevant Timescales"] !== "N/A") {
         return -1;
       }
-      if (a.Timescale !== "N/A" && b.Timescale === "N/A") {
+      if (a["Most Relevant Timescales"] !== "N/A" && b["Most Relevant Timescales"]=== "N/A") {
         return 1;
       }
-      if (a.Timescale === "N/A" && b.Timescale === "N/A") {
+      if (a["Most Relevant Timescales"] === "N/A" && b["Most Relevant Timescales"] === "N/A") {
         return 0;
       }
-      return parseInt(a.Timescale) - parseInt(b.Timescale);
+      return parseInt(a["Most Relevant Timescales"]) - parseInt(b["Most Relevant Timescales"]);
     });
     const newData = [clonedData.shift()];
     let i, j, l, ll, addDataFlag;
@@ -251,7 +251,7 @@
           continue;
         }
         addDataFlag = false;
-        newData[j].Timescale += `, ${clonedData[i].Timescale}`;
+        newData[j]["Most Relevant Timescales"] += `, ${clonedData[i]["Most Relevant Timescales"]}`;
         newData[j][key] = Math.max(parseFloat(newData[j][key]), parseFloat(clonedData[i][key]));
       }
       if (addDataFlag) {
@@ -393,7 +393,7 @@
    * @todo Determine these dynamically if needed.
    */
     function getMergedRenderKeys() {
-      return ["Indicator", "Timescale", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
+      return ["Indicator", "Most Relevant Timescales", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
     }
 
   /**
