@@ -124,6 +124,7 @@
       }
       result.push(parsedData);
     }
+    console.log("csv", result);
     return result;
   }
 
@@ -206,16 +207,27 @@
    * @returns 
    */
   function reprocessMergedData(data) {
-    const newData = [];
+    const uniqueData = {};
     const [regions, seasons] = [getRegions(), getSeasons()];
     let i, j, l, ll, key, newSubset;
     for (i = 0, l = regions.length; i < l; i++) {
       for (j = 0, ll = seasons.length; j < ll; j++) {
         key = `${regions[i]} - ${seasons[j]}`;
-        newSubset = mergeItems(data, key);
-        newData.push(...newSubset);
+        newSubset = getMergedSeasonalData(data, key);
+        newSubset.forEach((item) => {
+          if (!uniqueData[item.Dataset]) {
+            uniqueData[item.Dataset] = item;
+          } else {
+            uniqueData[item.Dataset][key] = item[key];
+          }
+        })
       }
     }
+    const newData = Object.values(uniqueData);
+    newData.sort(function (a, b) {
+      return parseFloat(b[`${regions[0]} - ${seasons[0]}`]) - parseFloat(a[`${regions[0]} - ${seasons[0]}`]);
+    });
+    console.log("reprocess", newData);
     return newData;
   }
 
@@ -225,7 +237,8 @@
    * @param {*} key 
    * @returns 
    */
-  function mergeItems(data, key) {
+  function getMergedSeasonalData(data, key) {
+    const newDataGrouped = {};
     data.sort(function (a, b) {
       return parseFloat(b[key]) - parseFloat(a[key]);
     });
@@ -242,38 +255,68 @@
       }
       return parseInt(a["Most Relevant Timescales"]) - parseInt(b["Most Relevant Timescales"]);
     });
-    const newData = [clonedData.shift()];
-    let i, j, l, ll, addDataFlag;
+    resetOtherKeys(clonedData, key);
+    let i, l;
     for (i = 0, l = clonedData.length; i < l; i++) {
-      addDataFlag = true;
-      for (j = 0, ll = newData.length; j < ll; j++) {
-        if (clonedData[i]["Dataset Group"] !== newData[j]["Dataset Group"]) {
-          continue;
-        }
-        addDataFlag = false;
-        newData[j]["Most Relevant Timescales"] += `, ${clonedData[i]["Most Relevant Timescales"]}`;
-        newData[j][key] = Math.max(parseFloat(newData[j][key]), parseFloat(clonedData[i][key]));
+      if (!newDataGrouped[clonedData[i]["Dataset Group"]]) {
+        newDataGrouped[clonedData[i]["Dataset Group"]] = [];
       }
-      if (addDataFlag) {
-        newData.push(clonedData[i]);
-      }
+      newDataGrouped[clonedData[i]["Dataset Group"]].push(clonedData[i]);
     }
+    const newData = Object.values(newDataGrouped).map(mergeUnprocessedData.bind(key));
+
+    return newData;
+  }
+
+  /**
+   * Reset all other region / season pairs to 0 so they won't be shown in the grouped table.
+   * @param {*} data 
+   * @param {*} currentKey 
+   */
+  function resetOtherKeys(data, currentKey) {
     const [regions, seasons] = [getRegions(), getSeasons()];
-    let k, lll, resetKey;
+    let i, j, k, l, ll, lll, resetKey;
     for (i = 0, l = regions.length; i < l; i++) {
       for (j = 0, ll = seasons.length; j < ll; j++) {
         resetKey = `${regions[i]} - ${seasons[j]}`;
-        for (k = 0, lll = newData.length; k < lll; k++) {
-          if (key !== resetKey) {
-            newData[k][resetKey] = 0;
+        for (k = 0, lll = data.length; k < lll; k++) {
+          if (currentKey !== resetKey) {
+            data[k][resetKey] = 0;
           }
         }
       }
     }
-    newData.sort(function (a, b) {
-      return parseFloat(b[key]) - parseFloat(a[key]);
+  }
+
+  /**
+   * Merges together the array of objects of datasets into single grouped dataset.
+   * @param {[{}]} items - Multiple datasets
+   * @return {} - Single grouped dataset. Uses the Dataset key so that other region.seasons with the same combination
+   *   will be easily found and merged together.
+   */
+  function mergeUnprocessedData(items) {
+    const regionSeasonKey = this;
+    const idKey = "Dataset";
+    const newObj = {};
+    items.forEach((item) => {
+      Object.entries(item).forEach(([key, value]) => {
+        if (!newObj[key]) {
+          newObj[key] = [];
+        }
+        newObj[key].push(value);
+      });
     });
-    return newData;
+    Object.entries(newObj).forEach(([key, value]) => {
+      value = [...new Set(value)];
+      if (key === idKey) {
+        newObj[key] = value.sort().join(",");
+      } else if (key === regionSeasonKey) {
+        newObj[key] = Math.max(...value);
+      } else {
+        newObj[key] = value.join(", ")
+      }
+    });
+    return newObj;
   }
 
   /**
