@@ -81,7 +81,7 @@
     const region = document.querySelector("#ui--dropdowns--region").value;
     const season = document.querySelector("#ui--dropdowns--season").value;
     const dataAttr = makeDataAttr(region, season);
-    if (index > 14 || parseFloat(elem[dataAttr]) === 0) {
+    if (index > 14 || parseFloat(elem.getAttribute(dataAttr)) === 0.0) {
       elem.classList.add("display-none");
     } else {
       elem.classList.remove("display-none");
