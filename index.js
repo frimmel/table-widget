@@ -317,11 +317,36 @@
         newObj[key] = value.sort().join(",");
       } else if (key === regionSeasonKey) {
         newObj[key] = Math.max(...value);
+      } else if (key === "Additional Datasets") {
+        newObj[key] = mergeAdditionalDatasets(value);
       } else {
         newObj[key] = value.join(", ")
       }
     });
     return newObj;
+  }
+
+  function mergeAdditionalDatasets(arr) {
+    const e = document.createElement("div");
+    e.innerHTML = arr.join("");
+    const a = e.querySelectorAll("a");
+    let i, j, link;
+    for (i = a.length - 1; i >= 0; i--) {
+      link = a[i].getAttribute("href");
+      for (j = 0; j < i; j++) {
+        if (link === a[j].getAttribute("href")) {
+          a[i].remove();
+          break;
+        }
+      }
+    }
+    const p = e.querySelectorAll("p");
+    for (i = p.length - 1; i >= 0; i--) {
+      if (!p[i].querySelector("a")) {
+        p[i].remove();
+      }
+    }
+    return e.innerHTML;
   }
 
   /**
