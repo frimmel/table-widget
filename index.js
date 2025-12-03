@@ -90,7 +90,7 @@
     const table = generateTable(reprocessDefaultData(data), getRenderKeys());
     document.querySelector("#table-default").append(table);
     const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
-    document.querySelector("#table-merged").append(mergedTable);
+    document.querySelector("#table-merged .c--nasa-indicators-table").append(mergedTable);
     updateColors();
     updateTextColors();
   }

@@ -20,10 +20,10 @@
    * @param {Event} e - An Input event.
    */
   function handleSelectInput(e) {
-    if (e.target.tagName !== "SELECT") {
+    if (e.target.tagName !== "SELECT" || !e.target.classList.contains("c--nasa-indicators-dropdown")) {
       return;
     }
-    if (!document.querySelector("table")) {
+    if (!document.querySelector("table") || !document.querySelector(".c--nasa-indicators-table")) {
       return;
     }
     updateTables()
@@ -33,7 +33,7 @@
    * Updates the tables to the selected region and season
    */
   function updateTables() {
-    const tBody = document.querySelectorAll("table tbody");
+    const tBody = document.querySelectorAll(".c--nasa-indicators-table table tbody");
     let i, l;
     for (i = 0, l = tBody.length; i < l; i++) {
       updateTable(tBody[i])
@@ -66,8 +66,8 @@
    * @return {number} - < 0 a before b, > 0 b before a, 0 stay the same
    */
   function sortRows(a, b) {
-    const region = document.querySelector("#ui--dropdowns--region").value;
-    const season = document.querySelector("#ui--dropdowns--season").value;
+    const region = document.querySelector(".c--nasa-indicators-dropdown--region").value;
+    const season = document.querySelector(".c--nasa-indicators-dropdown--season").value;
     const dataAttr = makeDataAttr(region, season);
     return b.getAttribute(dataAttr) - a.getAttribute(dataAttr);
   }
@@ -78,8 +78,8 @@
    * @param {number} index - the index
    */
   function updateDisplayClasses(elem, index) {
-    const region = document.querySelector("#ui--dropdowns--region").value;
-    const season = document.querySelector("#ui--dropdowns--season").value;
+    const region = document.querySelector(".c--nasa-indicators-dropdown--region").value;
+    const season = document.querySelector(".c--nasa-indicators-dropdown--season").value;
     const dataAttr = makeDataAttr(region, season);
     if (index > 14 || parseFloat(elem.getAttribute(dataAttr)) === 0.0) {
       elem.classList.add("display-none");
@@ -87,4 +87,4 @@
       elem.classList.remove("display-none");
     }
   }
-})()
+})();

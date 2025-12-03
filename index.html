@@ -12,10 +12,10 @@
     </div>
     <div id="tablewidget" class="grid-container display-none">
       <div id="ui" style="padding-bottom: 1rem; border-bottom: 1px solid #ccc;">
-        <div id="ui--dropdowns">
+        <div id="ui--nasa-dropdowns">
           <div style="display: inline-block; width: 50%; padding-right: 1rem;">
-            <label for="ui--dropdowns--region">Select Region</label>
-            <select class="usa-select" id="ui--dropdowns--region" name="ui--dropdowns--region">
+            <label for="ui--nasa-dropdowns--region">Select Region</label>
+            <select class="usa-select c--nasa-indicators-dropdown c--nasa-indicators-dropdown--region" id="ui--nasa-dropdowns--region" name="ui--nasa-dropdowns--region">
               <option value="highplains" selected>High Plains</option>
               <option value="midwest">Midwest</option>
               <option value="northeast">Northeast</option>
@@ -24,8 +24,8 @@
               <option value="west">West</option>
             </select>
           </div><div style="display: inline-block; width: 50%; padding-left: 1rem;">
-            <label for="ui--dropdowns--season">Select Season</label>
-            <select class="usa-select" id="ui--dropdowns--season" name="ui--dropdowns--season">
+            <label for="ui--nasa-dropdowns--season">Select Season</label>
+            <select class="usa-select c--nasa-indicators-dropdown c--nasa-indicators-dropdown--season" id="ui--nasa-dropdowns--season" name="ui--nasa-dropdowns--season">
               <option value="all" selected>All Seasons</option>
               <option value="winter">Winter</option>
               <option value="spring">Spring</option>
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div id="table-default" class="table display-none"></div>
-      <div id="table-merged" class="table"></div>
+      <div id="table-merged" class="table c--nasa-indicators-table"><div class="c--nasa-indicators-table"></div></div>
     </div>
     <script src="index.js?v=5"></script>
     <script src="interactions.js?v=5"></script>
