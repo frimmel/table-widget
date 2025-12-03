@@ -113,3 +113,21 @@ a, a:visited {
 .text-white, .text-white a, .text-white a:visited {
   color: #fff;
 }
+.font-body-xl {
+  font-size: 2.13rem;
+}
+.padding-4 {
+  padding: 2rem;
+}
+.display-inline-block {
+  display: inline-block;
+}
+.position-fixed {
+  position: fixed;
+}
+.radius-pill {
+  border-radius: 99rem;
+}
+.shadow-1 {
+  box-shadow: 0 1px .25rem 0 rgba(0,0,0,.1);
+}

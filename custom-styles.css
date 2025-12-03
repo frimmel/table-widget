@@ -139,7 +139,7 @@ body {
 }
 
 .indicator-icon thead tr th:last-child, .indicator-icon tbody tr td:last-child {
-  display: none;
+  /*display: none;*/
 }
 
 .indicator-icon tbody th {
@@ -175,4 +175,10 @@ body {
 
 .indicator-icon tbody tr[data-indicator="Groundwater"] th {
   background-image: url(icons/groundwaterNASA-150.png);
+}
+
+textarea {
+  width: 100%;
+  height: 400px;
+  margin-top: 1.5rem;
 }

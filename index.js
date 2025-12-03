@@ -19,6 +19,7 @@
     document.querySelector("#legend-reset").addEventListener("click", resetColorsToDefault);
     document.querySelector("#icon-toggle").addEventListener("click", toggleIndicatorType);
     dropHandlers();
+    document.querySelector("textarea").addEventListener("click", copyToClipboard);
   }
 
   /**
@@ -91,6 +92,10 @@
     document.querySelector("#table-default").append(table);
     const mergedTable = generateTable(reprocessMergedData(data), getMergedRenderKeys());
     document.querySelector("#table-merged .c--nasa-indicators-table").append(mergedTable);
+    document.querySelector("textarea").textContent = document.querySelector("textarea").textContent.replace(
+      "{{ TEMPLATE }}",
+      document.querySelector("#table-merged .c--nasa-indicators-table").outerHTML
+    );
     updateColors();
     updateTextColors();
   }
@@ -436,7 +441,7 @@
    * @todo Determine these dynamically if needed.
    */
     function getMergedRenderKeys() {
-      return ["Indicator", "Most Relevant Timescales", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets", "Indicator Type"];
+      return ["Indicator", "Most Relevant Timescales", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
     }
 
   /**
@@ -595,6 +600,7 @@
    * Toggles the type of indicator shown and the UI elements for it
    */
   function toggleIndicatorType() {
+    return;
     document.querySelector("body").classList.toggle("indicator-icon");
     const button = document.querySelector("#icon-toggle");
     const text = document.querySelector("#icon-toggle-text");
@@ -642,5 +648,34 @@
     updateColors();
     updateTextColors();
     updateColorURLParams();
+  }
+
+  /**
+   * Briefly flashes a help message on the page to let the user knows their clipboard has been modified.
+   */
+  function clipboardMessage() {
+    const message = document.createElement("div");
+    message.textContent = "Successfully copied to clipboard";
+    message.className = "font-body-xl padding-4 display-inline-block position-fixed radius-pill shadow-1";
+    message.style.background = "rgba(226, 226, 226, .85)";
+    message.style.top = "50%";
+    message.style.left = "50%";
+    message.style.transform = "translate(-50%, -50%)";
+    document.querySelector("body").append(message);
+    setTimeout(function () {
+      message.remove();
+    }, 500);
+  }
+
+  /**
+   * Copies GDAL output to the user's clipboard.
+   * @param {Event} e - Click event on the Pre element.
+   */
+  function copyToClipboard(e) {
+    const content = e.target.textContent;
+    if (!content || !navigator.clipboard) {
+      return;
+    }
+    navigator.clipboard.writeText(content).then(clipboardMessage);
   }
 })();
