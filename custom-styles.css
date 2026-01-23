@@ -18,6 +18,10 @@ body {
   color: #fff;
 }
 
+.c--nasa-indicators-table thead th:last-child {
+  column-count: 3;
+}
+
 #legend {
   display: flex;
   flex-wrap: wrap;

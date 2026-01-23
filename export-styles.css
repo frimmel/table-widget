@@ -2,6 +2,9 @@
   background-color: #162e51;
   color: #fff;
 }
+.c--nasa-indicators-table thead th:last-child {
+  column-count: 3;
+}
 .c--nasa-indicators-table tbody th {
   padding-left: 50px;
   background-repeat: no-repeat;
