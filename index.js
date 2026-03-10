@@ -269,7 +269,12 @@
       newDataGrouped[clonedData[i]["Dataset Group"]].push(clonedData[i]);
     }
     const newData = Object.values(newDataGrouped).map(mergeUnprocessedData.bind(key));
-
+    for (i = 0, l = newData.length; i < l; i++) {
+      if (newData[i]["Most Relevant Timescales"] && newData[i]["Most Relevant Timescales"] !== "N/A") {
+        newData[i]["Indicator"] = `${newData[i]["Most Relevant Timescales"]} ${newData[i]["Indicator"]}`;
+      }
+    }
+    console.log (newData)
     return newData;
   }
 
@@ -466,7 +471,7 @@
    * @todo Determine these dynamically if needed.
    */
     function getMergedRenderKeys() {
-      return ["Indicator", "Most Relevant Timescales", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
+      return ["Indicator", "What Is This, and How Do I Use It?", "Datasets In Study", "Additional Datasets"];
     }
 
   /**
