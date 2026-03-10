@@ -129,7 +129,6 @@
       }
       result.push(parsedData);
     }
-    console.log("csv", result);
     return result;
   }
 
@@ -232,7 +231,6 @@
     newData.sort(function (a, b) {
       return parseFloat(b[`${regions[0]} - ${seasons[0]}`]) - parseFloat(a[`${regions[0]} - ${seasons[0]}`]);
     });
-    console.log("reprocess", newData);
     return newData;
   }
 
@@ -274,7 +272,6 @@
         newData[i]["Indicator"] = `${newData[i]["Most Relevant Timescales"]} ${newData[i]["Indicator"]}`;
       }
     }
-    console.log (newData)
     return newData;
   }
 
